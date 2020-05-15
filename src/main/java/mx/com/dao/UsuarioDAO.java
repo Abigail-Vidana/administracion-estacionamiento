@@ -31,7 +31,7 @@ public class UsuarioDAO extends DAO{
         boolean exito = false;
         
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO usuario (id,nombre,apellido,cuenta,"
-                + "contrasena,puesto) VALUES (?,?,?,?,?,?)")
+                + "contrasena,puesto,sueldo) VALUES (?,?,?,?,?,?,?)")
                 ){
             ps.setInt(1, usuario.getId());
             ps.setString(2, usuario.getNombre());
@@ -39,6 +39,7 @@ public class UsuarioDAO extends DAO{
             ps.setString(4, usuario.getCuenta());
             ps.setString(5, usuario.getContrasena());
             ps.setString(6, usuario.getPuesto());
+            ps.setFloat(7, usuario.getSueldo());
             ps.executeUpdate();
 
             exito = true;

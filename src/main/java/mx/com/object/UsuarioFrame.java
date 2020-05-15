@@ -50,6 +50,8 @@ public class UsuarioFrame extends javax.swing.JFrame {
         lblPuesto = new javax.swing.JLabel();
         txtPuesto = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
+        lblSueldo = new javax.swing.JLabel();
+        txtSueldo1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,6 +88,10 @@ public class UsuarioFrame extends javax.swing.JFrame {
             }
         });
 
+        lblSueldo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblSueldo.setForeground(new java.awt.Color(255, 255, 255));
+        lblSueldo.setText("Sueldo:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -100,7 +106,8 @@ public class UsuarioFrame extends javax.swing.JFrame {
                             .addComponent(lblNombre)
                             .addComponent(lblId)
                             .addComponent(lblApellido)
-                            .addComponent(lblConstrasena))
+                            .addComponent(lblConstrasena)
+                            .addComponent(lblSueldo))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtId)
@@ -108,7 +115,8 @@ public class UsuarioFrame extends javax.swing.JFrame {
                             .addComponent(txtApellido)
                             .addComponent(txtCuenta)
                             .addComponent(txtContrasena)
-                            .addComponent(txtPuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
+                            .addComponent(txtPuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(txtSueldo1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(btnRegistrar)))
@@ -141,7 +149,11 @@ public class UsuarioFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPuesto)
                     .addComponent(txtPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSueldo)
+                    .addComponent(txtSueldo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(btnRegistrar)
                 .addGap(21, 21, 21))
         );
@@ -173,6 +185,7 @@ public class UsuarioFrame extends javax.swing.JFrame {
             usuario.setCuenta(txtCuenta.getText());
             usuario.setContrasena(txtContrasena.getText());
             usuario.setPuesto(txtPuesto.getText());
+            usuario.setSueldo(Float.parseFloat(txtSueldo1.getText()));
             if(usuarioDao.registro(usuario)){//se registran los datos del objeto
                 //se informa que se registraron correctamente
                 JOptionPane.showMessageDialog(null,"Se ha registrado un nuevo usuario","Informacion",JOptionPane.INFORMATION_MESSAGE); //mensaje de guardado exitoso
@@ -228,11 +241,13 @@ public class UsuarioFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPuesto;
+    private javax.swing.JLabel lblSueldo;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtContrasena;
     private javax.swing.JTextField txtCuenta;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPuesto;
+    private javax.swing.JTextField txtSueldo1;
     // End of variables declaration//GEN-END:variables
 }

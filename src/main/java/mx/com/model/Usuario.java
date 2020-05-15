@@ -15,6 +15,7 @@ public class Usuario {
     private String cuenta;
     private String contrasena;
     private String puesto;
+    private float sueldo;
 
     //metodos get y set de las propiedades anteriores 
     //para acceder a ellas, tanto para darle como obtener valores
@@ -65,6 +66,14 @@ public class Usuario {
 
     public void setPuesto(String puesto) {
         this.puesto = puesto;
+    }
+
+    public float getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(float sueldo) {
+        this.sueldo = sueldo;
     }
     
 }
