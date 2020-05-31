@@ -110,7 +110,7 @@ public class HiloBaja implements Runnable{
            } 
         }else{//si no hubo una actualizacion
             //se informa al usuario
-           JOptionPane.showMessageDialog(null,"Hubo un error al dar de baja los datos","Alerta",JOptionPane.WARNING_MESSAGE); //mensaje de guardado exitoso
+           JOptionPane.showMessageDialog(null,"Hubo un error al dar de baja los datos","Alerta",JOptionPane.WARNING_MESSAGE); 
         } 
     }
 }

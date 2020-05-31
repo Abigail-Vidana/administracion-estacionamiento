@@ -1,40 +1,29 @@
 package mx.com.object;
 
-import mx.com.thread.HiloBaja;
 import java.awt.Image;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import mx.com.dao.CajonDAO;
 import mx.com.dao.RegistroDAO;
-import mx.com.model.Cajon;
+import mx.com.dao.UsuarioDAO;
 import mx.com.model.Registro;
 import mx.com.model.Usuario;
-import mx.com.util.UtilidadSession;
 
 /**
  *
  * @author abigail
  */
 
-//ventana para el formulario de baja de autos
-public class EgresoFrame extends javax.swing.JInternalFrame{
+//ventana para el formulario de estado de autos
+public class EstadoFrame extends javax.swing.JInternalFrame{
 
     Registro registro;//objeto de Registro
     RegistroDAO registroDao = new RegistroDAO();//objeto para hacer uso de los query para los registros
-    CajonDAO cajonDao = new CajonDAO();//objeto para hacer uso de los query para los cajones
-    List<Cajon> listaCajones = cajonDao.getCajonesDisponibles(); //en una lista guardamos todos los cajones 
-    DefaultComboBoxModel modeloCajon = new DefaultComboBoxModel(listaCajones.toArray()); //valores de la lista desplegable para el cajon
-    
-    
+    Usuario usuarioEntrada, usuarioSalida;
+    UsuarioDAO usuarioDao = new UsuarioDAO();
     /**
      * Creates new form Registro
      */
-    public EgresoFrame() {
+    public EstadoFrame() {
         initComponents();
     }
 
@@ -61,7 +50,6 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         jLabel1 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         total = new javax.swing.JLabel();
-        btnRegistrar = new javax.swing.JButton();
         entrada = new javax.swing.JLabel();
         salida = new javax.swing.JLabel();
         boleto = new javax.swing.JTextField();
@@ -73,6 +61,10 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         btnVer = new javax.swing.JButton();
         cajon = new javax.swing.JLabel();
         lblBaja = new javax.swing.JLabel();
+        lblusuarioAlta = new javax.swing.JLabel();
+        lblusuarioBaja = new javax.swing.JLabel();
+        alta = new javax.swing.JLabel();
+        baja = new javax.swing.JLabel();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -132,13 +124,6 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         total.setForeground(new java.awt.Color(204, 204, 255));
         total.setText("-");
 
-        btnRegistrar.setText("Dar baja de auto");
-        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBajaAuto(evt);
-            }
-        });
-
         entrada.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         entrada.setForeground(new java.awt.Color(204, 204, 255));
         entrada.setText("-");
@@ -175,16 +160,30 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         lblBaja.setBackground(new java.awt.Color(255, 255, 204));
         lblBaja.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         lblBaja.setForeground(new java.awt.Color(255, 255, 204));
-        lblBaja.setText("Entrega de auto");
+        lblBaja.setText("Estado de auto");
+
+        lblusuarioAlta.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblusuarioAlta.setForeground(new java.awt.Color(255, 255, 255));
+        lblusuarioAlta.setText("Usuario que dio la alta:");
+
+        lblusuarioBaja.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblusuarioBaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblusuarioBaja.setText("Usuario que dio la baja:");
+
+        alta.setForeground(new java.awt.Color(204, 204, 255));
+        alta.setText("-");
+
+        baja.setForeground(new java.awt.Color(204, 204, 255));
+        baja.setText("-");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(94, 94, 94)
@@ -210,12 +209,6 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
                                     .addComponent(lblMarca)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(marca, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lblBaja)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(lblPropietario)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(propietario, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblEntrada)
@@ -227,18 +220,25 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lblTotal)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblusuarioAlta)
+                                    .addComponent(lblusuarioBaja))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(salida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(47, Short.MAX_VALUE))
+                                    .addComponent(entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(baja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(alta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblPropietario)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblBaja)
+                                    .addComponent(propietario, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnVer)
-                        .addGap(59, 59, 59)
-                        .addComponent(btnRegistrar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(166, 166, 166)
+                        .addComponent(btnVer)))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,15 +283,21 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(salida))
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblusuarioAlta)
+                    .addComponent(alta))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblusuarioBaja)
+                    .addComponent(baja))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTotal)
                     .addComponent(total))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegistrar)
-                    .addComponent(btnVer))
-                .addGap(58, 58, 58))
+                .addGap(20, 20, 20)
+                .addComponent(btnVer)
+                .addGap(49, 49, 49))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -302,36 +308,19 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //evento de accion para el boton de "Dar de baja auto"
-    private void btnBajaAuto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaAuto
-        if(!boleto.getText().isEmpty()){ //validamos que el usuario ingrese un numero de boleto
-            //Abrimos un hilo para la baja de un auto
-            HiloBaja hiloRegistro = new HiloBaja(registro);
-            Thread hilo = new Thread(hiloRegistro);
-            hilo.start();
-            limpiar();//se limpian las valores 
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe ingresar el Número de boleto");//se le informa al usuario que debe ingresar un num de boleto
-        }
-    }//GEN-LAST:event_btnBajaAuto
-
     //evento de accion para el boton de "Ver datos"
     private void btnVerDatos(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDatos
+        limpiar();
         if(!boleto.getText().isEmpty()){ //validamos que el usuario ingrese un numero de boleto         
             registro = registroDao.traerRegistro(Integer.parseInt(boleto.getText()));//traemos los registros de un auto de acuerdo al numero de boleto
-            registro.setSalida(new Timestamp(System.currentTimeMillis()));//le asignamos la hora de salida del auto con la actual del sistema
-            registro.setTotal(obtenerTotal(registro));//le asignamos el total a pagar
-            Usuario usuario = UtilidadSession.getInstance().getUsuario();//obtenemos el usuario que esta en sesion
-            registro.setUsuarioSalida(usuario.getId());//guardamos el usuario que dio la baja
-            
-            //se muestran los datos restantes del auto (los que se le dieron al darlo de alta) 
-            //mas los nuevos(hora de salida y total)
+            usuarioEntrada = usuarioDao.traerUsuarios(registro.getUsuarioEntrada());
+            usuarioSalida = usuarioDao.traerUsuarios(registro.getUsuarioSalida());
             marca.setText(registro.getMarca());
             modelo.setText(registro.getModelo());
             placas.setText(registro.getPlacas());
@@ -339,9 +328,12 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
             propietario.setText(registro.getPropietario());
             cajon.setText(String.format(" %d",registro.getCajon()));
             entrada.setText(registro.getEntrada().toString());
-            salida.setText(registro.getSalida().toString());
+            if(registro.getSalida()!= null)
+                salida.setText(registro.getSalida().toString());
             total.setText(String.format("$ %.2f ",registro.getTotal()));
-
+            alta.setText(usuarioEntrada.getNombre());
+            if(usuarioSalida!=null)
+                baja.setText(usuarioSalida.getNombre());
         }else{
             JOptionPane.showMessageDialog(null, "Debe ingresar el Número de boleto");//si no hay registros, se le informa al usuario
         }
@@ -349,7 +341,7 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
     
     //metodo para limpiar los valores
     private void limpiar(){
-        boleto.setText("");
+        //boleto.setText("");
         marca.setText("");
         modelo.setText("");
         placas.setText("");
@@ -359,40 +351,25 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         entrada.setText("");
         salida.setText("");
         total.setText("");
+        alta.setText("");
+        baja.setText("");
     }
     
-    //metodo para obtener la diferencia de horas y saber cuanto tiempo utilizo el servicio un auto
-    private long obtenrDiferenciaEnMinutos(LocalDateTime entrada, LocalDateTime salida){
-        return entrada.until(salida, ChronoUnit.MINUTES);//obtiene en minutos la diferencia entre la entrada y salida
-    }
-    
-    //metodo para calcular el total a pagar
-    private long obtenerTotal(Registro registro){
-        //obtenemos los minutos utilizados del servicio
-        long minutos = obtenrDiferenciaEnMinutos(registro.getEntrada().toLocalDateTime(),
-                registro.getSalida().toLocalDateTime());
-        long resultado = 35;//por default la primera hora se cobra a $35
-        if(minutos > 60){//despues de una hora
-            int espacios20 = (int)Math.ceil((minutos-60.0)/20.0);//cada 20 min extra
-            resultado += espacios20 *5;//son $5 mas
-        }
-        return resultado;//se retorna el total a pagar
-    }
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EgresoFrame().setVisible(true);
+                new EstadoFrame().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel alta;
+    private javax.swing.JLabel baja;
     private javax.swing.JTextField boleto;
-    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnVer;
     private javax.swing.JLabel cajon;
     private javax.swing.JLabel color;
@@ -411,6 +388,8 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
     private javax.swing.JLabel lblPropietario;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblusuarioAlta;
+    private javax.swing.JLabel lblusuarioBaja;
     private javax.swing.JLabel marca;
     private javax.swing.JLabel modelo;
     private javax.swing.JLabel placas;

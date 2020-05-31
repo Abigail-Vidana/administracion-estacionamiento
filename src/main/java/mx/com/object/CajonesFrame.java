@@ -1,45 +1,45 @@
 package mx.com.object;
 
 import mx.com.util.OyenteAcciones;
-import java.awt.Image;
 import java.awt.Color;
-import javax.swing.ImageIcon;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 import mx.com.model.Cajon;
+import mx.com.dao.CajonDAO;
 
 /**
  *
  * @author abigail
  */
 //Ventana para mostrar los cajones de forma gráfica
-public class CajonesFrame extends javax.swing.JFrame {
+public class CajonesFrame extends javax.swing.JInternalFrame {
 
     DefaultComboBoxModel modeloNiveles = new DefaultComboBoxModel();//combo para seleccionar el nivel (1-4)
     List<Cajon> cajones;//lista para almacenar los cajones
-   
-    //constructor que recibe una lista de los cajones
-    public CajonesFrame(List<Cajon> cajones){
-        this.cajones = cajones;//dicha lista se almacena en la lista de nuestra clase
-        List<Integer> niveles = this.cajones.stream().// se convierte la lista a stream
-                map(val -> val.getId_nivel()).distinct().//se filtran los valores de los cajones
-                collect(Collectors.toList());//se colectan en una lista
-        modeloNiveles.addAll(niveles);//se guardan los niveles en el modelo
-        modeloNiveles.setSelectedItem(niveles.get(0));//se establece el modelo de acuerdo con el nivel elegido
-        init();//inicio de componentes
-        mostrarCajones();//llamada al metodo que establece los cajones por nivel
-    }
-    
+    List<Integer> niveles;// lista para almacenar los niveles
+    CajonDAO cajonDao = new CajonDAO();
+      
     //metodo para establece los cajones por nivel
-    private void mostrarCajones(){
+    private void mostrarCajonesUI(){
+        /*como estamos actualizando los cajones disponibles
+        cada 5 segundos necesitamos usar invokeLater para actualizar el UI
+        */
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+      // Here, we can safely update the GUI
+      // because we'll be called from the
+      // event dispatch thread
         int nivel = (Integer) modeloNiveles.getSelectedItem();//obtenemos el nivel que seleccione el usuario
         OyenteAcciones oyenteAcciones = new OyenteAcciones(panelCajones);//clase para efectuar una accion a cada cajon
         // se obtiene una lista con cajones del nivel seleccionado
-        List<Cajon> cajonesNivel =  this.cajones.stream() // se convierte la lista a stream
+        List<Cajon> cajonesNivel =  cajones.stream() // se convierte la lista a stream
                 .filter(cajon -> cajon.getId_nivel() == nivel) //se filtran los cajones del nivel seleccionado
                 .collect(Collectors.toList()); // se colectan en una lista
         //se obtiene el alto y ancho para un formato cercano a un cuadrado
@@ -76,7 +76,8 @@ public class CajonesFrame extends javax.swing.JFrame {
             }
         }
         panelCajones.setLayout(new GridLayout(largo, alto));//diseño del panel
-        
+        }
+    });
     }
     
     //metodo para obtener el alto de botones 
@@ -101,23 +102,44 @@ public class CajonesFrame extends javax.swing.JFrame {
     }
     
     public CajonesFrame() {
-        initComponents();
-        //caracteristicas de la ventana
-        setTitle("Ubicación de cajones");
-        setLocationRelativeTo(null);
-        ImageIcon icon = new ImageIcon("src/main/resources/cross.png"); //icono de la ventana
-        Image image = icon.getImage();
-        setIconImage(image); 
+        init();
     }
     
     private void init(){
         initComponents();
-        //caracteristicas de la ventana
-        setTitle("Ubicación de cajones");
-        setLocationRelativeTo(null);
-        ImageIcon icon = new ImageIcon("src/main/resources/cross.png"); //icono de la ventana
-        Image image = icon.getImage();
-        setIconImage(image); 
+        
+        /* Iniciamos el hilo que va estar revisando cada 5 segundos los cambios 
+         de estado en los cajones para actualizar el UI */
+        Thread queryThread = new Thread() {
+            public void run() {
+             do{   
+              mostrarCajones();
+                 try {
+                     Thread.sleep(5000);
+                 } catch (InterruptedException ex) {
+                     Logger.getLogger(CajonesFrame.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }while(true);
+            }
+          };
+          queryThread.start();
+    }
+    /**
+     * Este metodo se trae los datos de los cajones en la base de datos
+     * y muestra los datos en la UI 
+     */
+    private void mostrarCajones(){
+        this.cajones = cajonDao.getCajones();
+        // solo debe correr la primera vez, cuando niveles es nulo
+        // esto para no estar llenando la lista en cada llamada
+        if(niveles == null){
+            niveles = this.cajones.stream().// se convierte la lista a stream
+                map(val -> val.getId_nivel()).distinct().//se filtran los valores de los cajones
+                collect(Collectors.toList());//se colectan en una lista
+            modeloNiveles.addAll(niveles);//se guardan los niveles en el modelo
+            modeloNiveles.setSelectedItem(niveles.get(0));//se establece el modelo de acuerdo con el nivel elegido
+        }
+        mostrarCajonesUI();
     }
 
     /**
@@ -134,7 +156,10 @@ public class CajonesFrame extends javax.swing.JFrame {
         lblNivel = new javax.swing.JLabel();
         panelCajones = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setMaximizable(true);
+        setTitle("Ubicación de cajones");
 
         panel1.setBackground(new java.awt.Color(0, 102, 153));
 
@@ -158,7 +183,7 @@ public class CajonesFrame extends javax.swing.JFrame {
                 .addComponent(lblNivel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comboNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addContainerGap(339, Short.MAX_VALUE))
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +205,7 @@ public class CajonesFrame extends javax.swing.JFrame {
         );
         panelCajonesLayout.setVerticalGroup(
             panelCajonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 252, Short.MAX_VALUE)
+            .addGap(0, 325, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -203,9 +228,9 @@ public class CajonesFrame extends javax.swing.JFrame {
 
     //evento de accion para mostrar los cajones al elegir un nivel del combo
     private void comboNivelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboNivelesActionPerformed
-        mostrarCajones();
+        mostrarCajonesUI();
     }//GEN-LAST:event_comboNivelesActionPerformed
-
+      
     /**
      * @param args the command line arguments
      */

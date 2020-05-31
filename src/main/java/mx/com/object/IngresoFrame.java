@@ -19,7 +19,7 @@ import mx.com.util.UtilidadSession;
  */
 
 //ventana para el formulario de alta de autos
-public class IngresoFrame extends javax.swing.JFrame{
+public class IngresoFrame extends javax.swing.JInternalFrame{
 
     Registro registro;//objeto de Registro
     Cajon cajonObj = new Cajon();// objeto de Cajon
@@ -33,12 +33,6 @@ public class IngresoFrame extends javax.swing.JFrame{
      */
     public IngresoFrame() {
         initComponents();
-        //caracteristicas de la ventana
-        setTitle("Registro de Nuevo Auto");
-        setLocationRelativeTo(null);
-        ImageIcon icon = new ImageIcon("src/main/resources/cross.png"); //icono de la ventana
-        Image image = icon.getImage();
-        setIconImage(image); 
     }
 
     /**
@@ -78,7 +72,11 @@ public class IngresoFrame extends javax.swing.JFrame{
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Registro de Nuevo Auto");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));

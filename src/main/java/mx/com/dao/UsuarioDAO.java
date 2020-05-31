@@ -124,4 +124,31 @@ public class UsuarioDAO extends DAO{
         return resultado;
     }
     
+    //metodo para obtener los usuarios
+     public Usuario traerUsuarios(int id) {
+
+        getConexion();
+        Usuario usuario = null;
+        
+        try (PreparedStatement ps = conn.prepareStatement("SELECT nombre,apellido,cuenta,contrasena,"
+                + " puesto,sueldo FROM usuario WHERE id = ?")){
+            ps.setInt(1, id);
+            ResultSet rst = ps.executeQuery();
+            while (rst.next()) {
+                usuario = new Usuario();
+                usuario.setId(id);
+                usuario.setNombre(rst.getString(1));
+                usuario.setApellido(rst.getString(2));
+                usuario.setCuenta(rst.getString(3));
+                usuario.setContrasena(rst.getString(4));
+                usuario.setPuesto(rst.getString(5));
+                usuario.setSueldo(rst.getFloat(6));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en sql: ");
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        return usuario;
+    }
 }

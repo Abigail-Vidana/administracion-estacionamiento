@@ -127,6 +127,7 @@ public class InicioSesionFrame extends javax.swing.JFrame {
             //se le da la bienvenida
             JOptionPane.showMessageDialog(null,"¡Bienvenido "+usuario.getNombre()+"!","Sesion aprobada",JOptionPane.WARNING_MESSAGE); 
             //se le da acceso al menu principal
+            //MenuPrincipal menu = new MenuPrincipal();
             MenuPrincipal menu = new MenuPrincipal();
             menu.setVisible(true);
             this.dispose();//se cierra esta vetana

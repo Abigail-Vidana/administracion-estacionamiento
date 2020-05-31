@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
  *
  * @author abigail
  */
-public class ReporteFrame extends javax.swing.JFrame {
+public class ReporteFrame extends javax.swing.JInternalFrame {
 
      List<Map<String, String>> usuario = null; 
      UsuarioDAO usuarioDao = new UsuarioDAO();
@@ -38,12 +38,7 @@ public class ReporteFrame extends javax.swing.JFrame {
      */
     public ReporteFrame() {    
         initComponents();
-        //caracteristicas de la ventana
-        setTitle("Reporte semanal");
-        setLocationRelativeTo(null);
-        ImageIcon icon = new ImageIcon("src/main/resources/cross.png"); //icono de la ventana
-        Image image = icon.getImage();
-        setIconImage(image); 
+ 
     }
 
     /**
@@ -67,7 +62,11 @@ public class ReporteFrame extends javax.swing.JFrame {
         tablaUsuarios = new javax.swing.JTable();
         btnReporte = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Reporte Semanal");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 
@@ -153,7 +152,7 @@ public class ReporteFrame extends javax.swing.JFrame {
                     .addComponent(btnReporte))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

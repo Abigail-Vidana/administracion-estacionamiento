@@ -12,19 +12,13 @@ import mx.com.model.Usuario;
  */
 
 //ventana para el formulario de registro de usuarios
-public class UsuarioFrame extends javax.swing.JFrame {
+public class UsuarioFrame extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form UsuarioFrame
      */
     public UsuarioFrame() {
         initComponents();
-        //caracteristicas de la ventana
-        setTitle("Registro de nuevo usuario");
-        setLocationRelativeTo(null);
-        ImageIcon icon = new ImageIcon("src/main/resources/cross.png"); //icono de la ventana
-        Image image = icon.getImage();
-        setIconImage(image); 
     }
 
     /**
@@ -53,7 +47,11 @@ public class UsuarioFrame extends javax.swing.JFrame {
         lblSueldo = new javax.swing.JLabel();
         txtSueldo1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Usuario");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 

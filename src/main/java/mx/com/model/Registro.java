@@ -1,4 +1,3 @@
-
 package mx.com.model;
 
 import java.sql.Timestamp;
