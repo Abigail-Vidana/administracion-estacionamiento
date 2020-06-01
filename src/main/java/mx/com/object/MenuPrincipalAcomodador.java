@@ -1,32 +1,28 @@
 package mx.com.object;
 
 
-import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
-import javax.swing.border.Border;
 import mx.com.util.ImagenFondo;
 
 /**
  *
  * @author abigail
  */
-public class MenuPrincipal extends javax.swing.JFrame {
+public class MenuPrincipalAcomodador extends javax.swing.JFrame {
 
     IngresoFrame ingresoFrame = new IngresoFrame();
     EgresoFrame egresoFrame = new EgresoFrame();
     EstadoFrame estadoFrame = new EstadoFrame();
-    UsuarioFrame usuarioFrame = new UsuarioFrame();
     CajonesFrame cajonesFrame = new CajonesFrame();
-    ReporteFrame reporteFrame = new ReporteFrame();
     List<JInternalFrame> frames = new ArrayList<>();
     /**
      * Creates new form MenuPrincipal2
      */
-    public MenuPrincipal() {
+    public MenuPrincipalAcomodador() {
         initComponents();
         //caracteristicas de la ventana
         setTitle("Estacionamiento Buena Fe");
@@ -35,20 +31,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Image image = icon.getImage();
         setIconImage(image); 
         jDesktopPane1.setBorder(new ImagenFondo());
-        this.setExtendedState(MenuPrincipal.MAXIMIZED_BOTH);
+        this.setExtendedState(MenuPrincipalAcomodador.MAXIMIZED_BOTH);
         this.jDesktopPane1.add(ingresoFrame);
         this.jDesktopPane1.add(egresoFrame);
         this.jDesktopPane1.add(estadoFrame);
-        this.jDesktopPane1.add(usuarioFrame);
         this.jDesktopPane1.add(cajonesFrame);
-        this.jDesktopPane1.add(reporteFrame);
         this.frames.add(ingresoFrame);
         this.frames.add(egresoFrame);
         this.frames.add(estadoFrame);
-        this.frames.add(usuarioFrame);
-        //this.frames.add(cajonesFrame);
-        this.frames.add(reporteFrame);
-
     }
 
     /**
@@ -67,11 +57,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         itemAlta = new javax.swing.JMenuItem();
         itemBaja = new javax.swing.JMenuItem();
         itemConsulta = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuAuto = new javax.swing.JMenu();
         itemCajones = new javax.swing.JMenuItem();
-        menuAcomodador = new javax.swing.JMenu();
-        itemUsuario = new javax.swing.JMenuItem();
-        itemReporte = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,6 +123,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         menuBoleto.add(itemConsulta);
 
+        jMenuItem1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jMenuItem1.setText("Salir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSalir(evt);
+            }
+        });
+        menuBoleto.add(jMenuItem1);
+
         jMenuBar1.add(menuBoleto);
 
         menuAuto.setForeground(new java.awt.Color(0, 102, 153));
@@ -153,33 +150,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuAuto.add(itemCajones);
 
         jMenuBar1.add(menuAuto);
-
-        menuAcomodador.setForeground(new java.awt.Color(0, 102, 153));
-        menuAcomodador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuario.png"))); // NOI18N
-        menuAcomodador.setText("Acomodador");
-        menuAcomodador.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 12)); // NOI18N
-
-        itemUsuario.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        itemUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usercirlce.png"))); // NOI18N
-        itemUsuario.setText("Agregar usuario");
-        itemUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemUsuarioActionPerformed(evt);
-            }
-        });
-        menuAcomodador.add(itemUsuario);
-
-        itemReporte.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        itemReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/archivo.png"))); // NOI18N
-        itemReporte.setText("Reporte acomodador");
-        itemReporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemReporteActionPerformed(evt);
-            }
-        });
-        menuAcomodador.add(itemReporte);
-
-        jMenuBar1.add(menuAcomodador);
 
         setJMenuBar(jMenuBar1);
 
@@ -212,20 +182,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         estadoFrame.show();
     }//GEN-LAST:event_itemConsulta
 
-    private void itemUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsuarioActionPerformed
-        esconder();
-        usuarioFrame.show();
-    }//GEN-LAST:event_itemUsuarioActionPerformed
-
     private void itemCajonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCajonesActionPerformed
         esconder();
         cajonesFrame.show();
     }//GEN-LAST:event_itemCajonesActionPerformed
 
-    private void itemReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemReporteActionPerformed
-        esconder();
-        reporteFrame.show();
-    }//GEN-LAST:event_itemReporteActionPerformed
+    private void itemSalir(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalir
+        InicioSesionFrame inicio = new InicioSesionFrame();
+        inicio.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_itemSalir
     private void esconder(){
         for(JInternalFrame frame : frames){
             frame.hide();
@@ -248,21 +214,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipalAcomodador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipalAcomodador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipalAcomodador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipalAcomodador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal().setVisible(true);
+                new MenuPrincipalAcomodador().setVisible(true);
             }
         });
     }
@@ -272,12 +240,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemBaja;
     private javax.swing.JMenuItem itemCajones;
     private javax.swing.JMenuItem itemConsulta;
-    private javax.swing.JMenuItem itemReporte;
-    private javax.swing.JMenuItem itemUsuario;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JMenu menuAcomodador;
     private javax.swing.JMenu menuAuto;
     private javax.swing.JMenu menuBoleto;
     // End of variables declaration//GEN-END:variables

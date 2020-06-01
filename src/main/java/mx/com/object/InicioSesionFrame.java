@@ -124,12 +124,20 @@ public class InicioSesionFrame extends javax.swing.JFrame {
         Usuario usuario = usuarioDao.usuarioExiste(cuenta, contrasena);//verificamos si el usuario existe
         UtilidadSession.getInstance().setUsuario(usuario);//asignamos a dicho usuario como unico en la sesion
         if(usuario != null){//si el usuario existe
-            //se le da la bienvenida
-            JOptionPane.showMessageDialog(null,"¡Bienvenido "+usuario.getNombre()+"!","Sesion aprobada",JOptionPane.WARNING_MESSAGE); 
-            //se le da acceso al menu principal
-            //MenuPrincipal menu = new MenuPrincipal();
-            MenuPrincipal menu = new MenuPrincipal();
-            menu.setVisible(true);
+            //se aacede de acuerdo con el puesto de usuario
+            if(usuario.getPuesto().equalsIgnoreCase("Acomodador")){//se valida si es usario acomodador
+                //se le da la bienvenida
+                JOptionPane.showMessageDialog(null,"¡Bienvenido "+usuario.getNombre()+"!","Sesion aprobada",JOptionPane.WARNING_MESSAGE); 
+                //se le da acceso al menu principal
+                MenuPrincipalAcomodador menu = new MenuPrincipalAcomodador();
+                menu.setVisible(true);
+            }else if(usuario.getPuesto().equalsIgnoreCase("Administrador")){//se valida si es usuario administrador
+                //se le da la bienvenida
+                JOptionPane.showMessageDialog(null,"¡Bienvenido "+usuario.getNombre()+"!","Sesion aprobada",JOptionPane.WARNING_MESSAGE); 
+                //se le da acceso al menu principal
+                MenuPrincipalAdministrador menu = new MenuPrincipalAdministrador();
+                menu.setVisible(true);
+            }
             this.dispose();//se cierra esta vetana
         }else{//si no existe
             //se le informa
