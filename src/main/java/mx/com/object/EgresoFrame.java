@@ -1,19 +1,16 @@
 package mx.com.object;
 
 import mx.com.thread.HiloBaja;
-import java.awt.Image;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import mx.com.dao.CajonDAO;
 import mx.com.dao.RegistroDAO;
 import mx.com.model.Cajon;
 import mx.com.model.Registro;
 import mx.com.model.Usuario;
+import mx.com.util.MontoPago;
 import mx.com.util.UtilidadSession;
 
 /**
@@ -29,7 +26,7 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
     CajonDAO cajonDao = new CajonDAO();//objeto para hacer uso de los query para los cajones
     List<Cajon> listaCajones = cajonDao.getCajonesDisponibles(); //en una lista guardamos todos los cajones 
     DefaultComboBoxModel modeloCajon = new DefaultComboBoxModel(listaCajones.toArray()); //valores de la lista desplegable para el cajon
-    
+    MontoPago pago; //objeto para obtener el total
     
     /**
      * Creates new form Registro
@@ -326,7 +323,8 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         if(!boleto.getText().isEmpty()){ //validamos que el usuario ingrese un numero de boleto         
             registro = registroDao.traerRegistro(Integer.parseInt(boleto.getText()));//traemos los registros de un auto de acuerdo al numero de boleto
             registro.setSalida(new Timestamp(System.currentTimeMillis()));//le asignamos la hora de salida del auto con la actual del sistema
-            registro.setTotal(obtenerTotal(registro));//le asignamos el total a pagar
+            pago = new MontoPago(registro);//objeto de la clse que obtiene el total
+            registro.setTotal(pago.obtenerTotal());//le asignamos el total a pagar
             Usuario usuario = UtilidadSession.getInstance().getUsuario();//obtenemos el usuario que esta en sesion
             registro.setUsuarioSalida(usuario.getId());//guardamos el usuario que dio la baja
             
@@ -359,24 +357,6 @@ public class EgresoFrame extends javax.swing.JInternalFrame{
         entrada.setText("");
         salida.setText("");
         total.setText("");
-    }
-    
-    //metodo para obtener la diferencia de horas y saber cuanto tiempo utilizo el servicio un auto
-    private long obtenrDiferenciaEnMinutos(LocalDateTime entrada, LocalDateTime salida){
-        return entrada.until(salida, ChronoUnit.MINUTES);//obtiene en minutos la diferencia entre la entrada y salida
-    }
-    
-    //metodo para calcular el total a pagar
-    private long obtenerTotal(Registro registro){
-        //obtenemos los minutos utilizados del servicio
-        long minutos = obtenrDiferenciaEnMinutos(registro.getEntrada().toLocalDateTime(),
-                registro.getSalida().toLocalDateTime());
-        long resultado = 35;//por default la primera hora se cobra a $35
-        if(minutos > 60){//despues de una hora
-            int espacios20 = (int)Math.ceil((minutos-60.0)/20.0);//cada 20 min extra
-            resultado += espacios20 *5;//son $5 mas
-        }
-        return resultado;//se retorna el total a pagar
     }
 
     /**

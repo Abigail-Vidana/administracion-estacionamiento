@@ -70,6 +70,7 @@ public class CajonesFrame extends javax.swing.JInternalFrame {
                 else{
                     botones[i][j].setBackground(Color.green);
                 }
+                botones[i][j].putClientProperty("cajon", cajon);//a cada boton se le asigna la propiedad de objeto de cajon
                 botones[i][j].setText(cajon.getCajon());//a cada cajon se pone en texto su nombre
                 botones[i][j].addActionListener(oyenteAcciones);//a cada cajon se le asigna una accion
                 panelCajones.add(botones[i][j]);//añadimos los botones al panel

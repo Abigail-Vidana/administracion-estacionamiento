@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -118,6 +119,44 @@ public class RegistroDAO extends DAO{
                 registro.setUsuarioSalida(rst.getInt(9));
                 registro.setUsuarioEntrada(rst.getInt(10));
                 registro.setCajon(rst.getInt(11));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en sql: ");
+            Logger.getLogger(RegistroDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        return registro;
+    }
+     
+     //metodo para obtener los registros
+     /**
+      * 
+      * @param id Id del cajon que esta siendo ocupado por ese registro.
+      * @return 
+      */
+     public Registro traerRegistroUsandoCajon(int id) {
+
+        getConexion();
+        Registro registro = null;
+        
+        try (PreparedStatement ps = conn.prepareStatement("SELECT marca,modelo,placas,color,propietario,entrada,"
+                + "total,id_usuario_entrada,id_cajon FROM boleto b inner join cajon c " +
+                "on b.id_cajon = c.id and b.salida is null WHERE c.id = ?")){
+            ps.setInt(1, id);
+            ResultSet rst = ps.executeQuery();
+            while (rst.next()) {
+                registro = new Registro();
+                registro.setId(id);
+                registro.setMarca(rst.getString(1));
+                registro.setModelo(rst.getString(2));
+                registro.setPlacas(rst.getString(3));
+                registro.setColor(rst.getString(4));
+                registro.setPropietario(rst.getString(5));
+                registro.setEntrada(rst.getTimestamp(6));
+                registro.setTotal(rst.getFloat(7));
+                registro.setUsuarioEntrada(rst.getInt(8));
+                registro.setCajon(rst.getInt(9));
+                registro.setSalida(new Timestamp(System.currentTimeMillis()));
             }
         } catch (SQLException e) {
             System.out.println("Error en sql: ");

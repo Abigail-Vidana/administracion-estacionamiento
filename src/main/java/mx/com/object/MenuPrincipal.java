@@ -1,11 +1,14 @@
 package mx.com.object;
 
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
+import javax.swing.border.Border;
+import mx.com.util.ImagenFondo;
 
 /**
  *
@@ -31,6 +34,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ImageIcon icon = new ImageIcon("src/main/resources/cross.png"); //icono de la ventana
         Image image = icon.getImage();
         setIconImage(image); 
+        jDesktopPane1.setBorder(new ImagenFondo());
+        this.setExtendedState(MenuPrincipal.MAXIMIZED_BOTH);
         this.jDesktopPane1.add(ingresoFrame);
         this.jDesktopPane1.add(egresoFrame);
         this.jDesktopPane1.add(estadoFrame);
@@ -78,7 +83,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addGap(0, 270, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -96,10 +101,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.setForeground(new java.awt.Color(204, 204, 204));
 
         menuBoleto.setForeground(new java.awt.Color(0, 102, 153));
+        menuBoleto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/boleto.png"))); // NOI18N
         menuBoleto.setText("Boleto");
         menuBoleto.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 12)); // NOI18N
 
         itemAlta.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        itemAlta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/guardar.png"))); // NOI18N
         itemAlta.setText("Alta");
         itemAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +116,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuBoleto.add(itemAlta);
 
         itemBaja.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/baja.png"))); // NOI18N
         itemBaja.setText("Baja");
         itemBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,6 +126,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuBoleto.add(itemBaja);
 
         itemConsulta.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/consultar.png"))); // NOI18N
         itemConsulta.setText("Consulta");
         itemConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,10 +138,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuBoleto);
 
         menuAuto.setForeground(new java.awt.Color(0, 102, 153));
+        menuAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/car.png"))); // NOI18N
         menuAuto.setText("Auto");
         menuAuto.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 12)); // NOI18N
 
         itemCajones.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemCajones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eye.png"))); // NOI18N
         itemCajones.setText("Ver cajones");
         itemCajones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,10 +155,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuAuto);
 
         menuAcomodador.setForeground(new java.awt.Color(0, 102, 153));
+        menuAcomodador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuario.png"))); // NOI18N
         menuAcomodador.setText("Acomodador");
         menuAcomodador.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 12)); // NOI18N
 
         itemUsuario.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usercirlce.png"))); // NOI18N
         itemUsuario.setText("Agregar usuario");
         itemUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +170,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuAcomodador.add(itemUsuario);
 
         itemReporte.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/archivo.png"))); // NOI18N
         itemReporte.setText("Reporte acomodador");
         itemReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
