@@ -13,9 +13,10 @@ import mx.com.util.Constantes;
  *
  * @author abigail
  */
+//ventana para el chat del servidor
 public class ServidorFrame extends javax.swing.JInternalFrame {
 
-    ConexionServidor servidor;
+    ConexionServidor servidor;//objeto de conexion
     private JFileChooser jFileChooser1 = new javax.swing.JFileChooser();//componente para elegir una ruta
     /**
      * Creates new form ClienteFrame
@@ -123,24 +124,29 @@ public class ServidorFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //metodo de evento para el boton "iniciar servidor"
     private void btnIniciarServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarServidorActionPerformed
-        servidor = new ConexionServidor(".");
-        servidor.start();
-        JOptionPane.showMessageDialog(null, "¡Servidor conectado!");
+        servidor = new ConexionServidor(".");//se envia un nombre para iniciar el servidor
+        servidor.start();//se inicia el hilo de la clase
+        JOptionPane.showMessageDialog(null, "¡Servidor conectado!");//se informa que se ha conectado
     }//GEN-LAST:event_btnIniciarServidorActionPerformed
 
+    //metodo de evento para el boton "enviar"
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        servidor.enviarMensaje(txtMensaje.getText());
+        servidor.enviarMensaje(txtMensaje.getText());//se envia el mensaje
+        //se concatena en la caja donde aparecen los mensajes, los que ya se tienen mas el nuevo mensaje que envia el servidor
         txtVerMensaje.setText(txtVerMensaje.getText()+"\n"+txtMensaje.getText());
-        txtMensaje.setText("");
+        txtMensaje.setText("");//se limpia el campo de mensajes
     }//GEN-LAST:event_btnEnviarActionPerformed
 
+    //metodo de evento para el boton "desconectar servidor"
     private void btnCerrarServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarServidorActionPerformed
-        servidor.enviarMensaje(Constantes.CERRAR_SESION);
-        btnEnviar.setEnabled(false);
-        JOptionPane.showMessageDialog(null, "¡Servidor desconectado!");
+        servidor.enviarMensaje(Constantes.CERRAR_SESION);//se envia el mensaje de cerrar sesion
+        btnEnviar.setEnabled(false);//deshabilitamos el boton de enviar para que no mande mas mensajes
+        JOptionPane.showMessageDialog(null, "¡Servidor desconectado!");//se informa que se ha desconectado
     }//GEN-LAST:event_btnCerrarServidorActionPerformed
 
+    //metodo de evento para el boton "imprimir chat"
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
          //le damos a elegir donde guardar el archivo
         jFileChooser1.showSaveDialog(null);
@@ -154,9 +160,9 @@ public class ServidorFrame extends javax.swing.JInternalFrame {
         }
         try{
             // Si el archivo no existe es creado
-                if (!archivo.exists()) {
-                    archivo.createNewFile();
-                }
+            if (!archivo.exists()) {
+                archivo.createNewFile();
+            }
 
             FileWriter fw = new FileWriter(archivo);
             BufferedWriter bw = new BufferedWriter(fw);

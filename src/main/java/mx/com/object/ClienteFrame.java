@@ -8,18 +8,19 @@ import mx.com.util.UtilidadSession;
  *
  * @author abigail
  */
+//ventana para el chat del cliente
 public class ClienteFrame extends javax.swing.JInternalFrame {
 
-    ConexionCliente cliente;
+    ConexionCliente cliente;//objeto de conexion
     Usuario usuario = UtilidadSession.getInstance().getUsuario();//obtenemos el usuario que esta en sesion
-    String nombreUsuario = String.valueOf(usuario.getNombre());
+    String nombreUsuario = String.valueOf(usuario.getNombre());//nombre del usuario en sesion
     /**
      * Creates new form ClienteFrame
      */
     public ClienteFrame() {
         initComponents();
         
-        lblNombreUsuario.setText(nombreUsuario);
+        lblNombreUsuario.setText(nombreUsuario);//se establece el nombre del usuario en sesion en la ventana
     }
 
     /**
@@ -46,23 +47,6 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximizable(true);
         setTitle("Cliente");
-        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosed(evt);
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-        });
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 formComponentHidden(evt);
@@ -145,24 +129,23 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //metodo de evento para el boton "conectar"
     private void btnConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConectarActionPerformed
-        cliente = new ConexionCliente(txtIP.getText());
-        cliente.start();
+        cliente = new ConexionCliente(txtIP.getText());//se realiza la conexion, se envia la ip
+        cliente.start();//se inicia el hilo de la clase
     }//GEN-LAST:event_btnConectarActionPerformed
 
+    //metodo de evento para el boton "enviar"
     private void btnEnviarMnesajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMnesajeActionPerformed
-        System.out.println("Enviando:"+txtMensaje.getText());
-        cliente.enviarMensaje(nombreUsuario+" dice: "+txtMensaje.getText());
-        txtMensaje.setText("");
+        //System.out.println("Enviando:"+txtMensaje.getText());
+        cliente.enviarMensaje(nombreUsuario+" dice: "+txtMensaje.getText());//se envia el mensaje
+        txtMensaje.setText("");//limpiamos el campo de texto
     }//GEN-LAST:event_btnEnviarMnesajeActionPerformed
 
-    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
-        System.out.println("cerro la ventana");
-    }//GEN-LAST:event_formInternalFrameClosed
-
+    //metodo de evento al cerrar la ventana
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
         //System.out.println("cerro la ventana");
-        cliente.desconectarCliente();
+        cliente.desconectarCliente();//se desconecta el cliente
     }//GEN-LAST:event_formComponentHidden
 
     /**

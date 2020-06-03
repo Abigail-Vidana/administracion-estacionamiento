@@ -26,26 +26,26 @@ import mx.com.util.UtilidadSession;
  *
  * @author abigail
  */
-public class ConexionServidor extends Thread{
+public class ConexionServidor extends Thread{//clase que crea la conexion del lado de servidor
     
-    private ServerSocket serverSocket;
-    final int puerto = 8000;
-    private boolean conectado = true;
-    List<Socket> sockets = new ArrayList<>();
+    private ServerSocket serverSocket; //variable serversocket
+    final int puerto = 8000;//puerto de enlace
+    private boolean conectado = true; //variable para verificar la conexion
+    List<Socket> sockets = new ArrayList<>();//lista de la clase para almacenar las conexiones 
     Usuario usuario = UtilidadSession.getInstance().getUsuario();//obtenemos el usuario que esta en sesion
-    String nombreUsuario = String.valueOf(usuario.getNombre());
+    String nombreUsuario = String.valueOf(usuario.getNombre());//nombre del usuario en sesion
     
     public ConexionServidor(String nombre){
         super(nombre);
     }
     
-    public void run(){
+    public void run(){//lo que va a correr el hilo
         
         try{    
-            serverSocket = new ServerSocket(puerto);
-            List<ServerThread> threads = new ArrayList<>();
-            int connectionCount = 0;
-                System.out.println("Servidor escuchando en puerto "+puerto);
+            serverSocket = new ServerSocket(puerto);//se inicializa el server y se le manda el puerto
+            List<ServerThread> threads = new ArrayList<>();//lista para almacenar los hilos de conexion de clientes
+            int connectionCount = 0;//contador de numero de clientes
+                //System.out.println("Servidor escuchando en puerto "+puerto);
             while(conectado){
                 
                 // La siguiente linea detiene la ejecucion del hilo hasta que
@@ -53,18 +53,18 @@ public class ConexionServidor extends Thread{
                 Socket socket = serverSocket.accept();
                 // pone el mensaje de que alguien se conecto en el servidor
                 ServidorFrame.txtVerMensaje.setText(ServidorFrame.txtVerMensaje.getText()+"\n"+"Nuevo Usuario Conectado\n"+ 
-                        new Date(System.currentTimeMillis()));
+                        new Date(System.currentTimeMillis()));//se asigna la hora y fecha actual a la conexion
                 // incrementa contador de los hilos de servidor
-                connectionCount++;
+                connectionCount++;//aumenta uno porque hay un nuevo cliente
                 
-                sockets.add(socket);
-                for(ServerThread serverThread : threads){
-                    serverThread.updateSockets(sockets);
+                sockets.add(socket);//se añade a la lista cada una de las nuevas conexiones
+                for(ServerThread serverThread : threads){//se recorre la lista de conexiones
+                    serverThread.updateSockets(sockets);//se manda actualizar el socket
                 }
-                ServerThread serverThread = new ServerThread(socket,connectionCount);
-                serverThread.setSockets(sockets);
-                threads.add(serverThread);
-                serverThread.start();
+                ServerThread serverThread = new ServerThread(socket,connectionCount);//objeto de la clase serverThread
+                serverThread.setSockets(sockets);//se establece la lista de sockets en un nuevo hilo cada uno
+                threads.add(serverThread);//a la lista local le pasamos dichos hilos
+                serverThread.start();//se inician los hilos para iniciar la conexion
             }
 
         }catch(IOException e){
@@ -74,29 +74,29 @@ public class ConexionServidor extends Thread{
     
     //metodo para el envio de mensajes
     public void enviarMensaje(String mensaje){
-        if(!mensaje.equals(Constantes.CERRAR_SESION)){
-            for(Socket socket: sockets){
+        if(!mensaje.equals(Constantes.CERRAR_SESION)){//se verifica que no este cerrada la sesion
+            for(Socket socket: sockets){//se recorren los clientes (para mandarles a todos el mismo mensaje)
                 try {
-                    DataOutputStream salida = new DataOutputStream(socket.getOutputStream());
-                    salida.writeChars(mensaje+"\n");
+                    DataOutputStream salida = new DataOutputStream(socket.getOutputStream());//se obtiene el socket de salida
+                    salida.writeChars(mensaje+"\n");//se envian los mensajes
                 }catch (IOException ex) {
                     Logger.getLogger(ConexionServidor.class.getName()).log(Level.SEVERE, null, ex);
                 } 
             } 
-        }else{
-            desconectarServidor();
-            this.conectado = false;
+        }else{//si se recibe un mensaje de cerrar sesion
+            desconectarServidor();//se desconecta el servidor
+            this.conectado = false;//colocamos como falsa la conexion para que no se corra en el hilo
         }
     }
     
+    //metodo para desconectar la sesion desde el lado del servidor
     public void desconectarServidor(){
-         for(Socket socket: sockets){
+         for(Socket socket: sockets){//se recorren los clientes
                 try {
-                    DataOutputStream salida = new DataOutputStream(socket.getOutputStream());
-                    //salida.writeChars(Constantes.CERRAR_SESION+"\n");
+                    DataOutputStream salida = new DataOutputStream(socket.getOutputStream());//se obtiene el socket de salida
                     
-                    PrintWriter writer = new PrintWriter(salida, true);
-                    writer.println(Constantes.CERRAR_SESION);
+                    PrintWriter writer = new PrintWriter(salida, true);//va a mandar a todas las salidas
+                    writer.println(Constantes.CERRAR_SESION);//el mensaje de cerrar sesion (y se deconecta el servidor)
                 } catch (IOException ex) {
                     Logger.getLogger(ConexionServidor.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -105,7 +105,7 @@ public class ConexionServidor extends Thread{
     }
     
     /**
-     * Este hilo es responsable de manejar la conexion con cada cliente
+     * Este clase crea el hilo responsable de manejar la conexion con cada cliente
      */
     class ServerThread extends Thread{
         private Socket socket;
@@ -153,7 +153,7 @@ public class ConexionServidor extends Thread{
         setSockets(sockets);
         if(this.salida != null){
             try{
-                this.salida.writeChars("Alguien se unio \n");
+                this.salida.writeChars("¡Alguien se unio a la conversacion! \n");
             }catch(IOException e){
                 e.printStackTrace();
             }
@@ -174,28 +174,30 @@ public class ConexionServidor extends Thread{
         }
     }
     
-    public void run() {
+    public void run() {//metodo que se corre al inicar el hilo
         try {
-            InputStream input = socket.getInputStream();
-            BufferedReader entrada = new BufferedReader(new InputStreamReader(input));
+            InputStream input = socket.getInputStream();//variable que obtiene el socket de entrada 
+            BufferedReader entrada = new BufferedReader(new InputStreamReader(input));//lee los datos de entrada
  
-            OutputStream output = socket.getOutputStream();
-            this.salida = new DataOutputStream(output);
+            OutputStream output = socket.getOutputStream();//variable que obtiene el socket de salida
+            this.salida = new DataOutputStream(output);//envia los datos de salida
  
  
-            String texto;
+            String texto;//variable para almacenar los mensajes
  
             do {
-                texto = entrada.readLine();
-                if(texto != null){
-                    mandarMensaje(texto);
+                texto = entrada.readLine();//se alamacenan los mensajes
+                if(texto != null){//si tenemos algo
+                    mandarMensaje(texto);//se envia el texto
+                    //en la ventana del servidor concatenamos los mensajes que ya tenemos mas este nuevo
                     ServidorFrame.txtVerMensaje.setText(ServidorFrame.txtVerMensaje.getText()+"\n"+texto);
                     Logger.getLogger(ConexionServidor.class.getName()).log(Level.INFO, texto);
                 }
-            } while (!texto.equals(Constantes.CERRAR_SESION) && !this.socket.isClosed());
+            } while (!texto.equals(Constantes.CERRAR_SESION) && !this.socket.isClosed());//se recoore mientras no se cierre la sesion
             
+            //si algun cliente cierra su ventana (el evento cerrará el socket)
             if(!this.socket.isClosed()){
-                this.socket.close();
+                this.socket.close();//se cierra su socket de conexion
             }
         } catch (SocketException e){
             if(e.getMessage().equals("Socket closed")){
