@@ -151,4 +151,67 @@ public class UsuarioDAO extends DAO{
         
         return usuario;
     }
+    
+    //Metodo para obtener las comisiones por usuario
+    public Float obtenerTotalComisiones(int id, Date inicio, Date termino){
+         
+        getConexion();
+        Usuario usuario = null;
+        float comision = 0;
+       /*
+        Como tenemos 2 usuarios registrados en boleto, uno que da la alta y uno que da la baja,
+        se divide el total entre dos para que el total del boleto sea la mitad de comision
+        para el que da la alta y la otra para el que da la baja
+        */
+        try (PreparedStatement ps = conn.prepareStatement(" select sum(total)*.1 from ( "
+                    + " select b.total/2 as total from boleto b inner join usuario u "
+                    + " on u.id = b.id_usuario_entrada "
+                    + " where u.id = ? and b.total is not null "
+                    + " and entrada between ? and ? "
+                    + " union all "
+                    + " select b.total/2 as total from boleto b inner join usuario u "
+                    + " on u.id = b.id_usuario_salida "
+                    + " where u.id = ? and b.total is not null "
+                    + " and salida between ? and ?) totales" )){
+            ps.setInt(1, id); 
+            ps.setTimestamp(2, new Timestamp(inicio.getTime()));
+            ps.setTimestamp(3, new Timestamp(termino.getTime()));
+            ps.setInt(4, id); 
+            ps.setTimestamp(5, new Timestamp(inicio.getTime()));
+            ps.setTimestamp(6, new Timestamp(termino.getTime()));
+            
+            ResultSet rst = ps.executeQuery();
+            while (rst.next()) {
+                comision= rst.getFloat(1);
+                usuario = new Usuario();
+                usuario.setId(id); 
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en sql: ");
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, e);
+        } 
+        return comision;
+    }
+    
+    //metodo para obtener el saldo de un usuario
+     public Float traerSueldoDeUsuario(int id) {
+
+        getConexion();
+        Usuario usuario = null;
+        float sueldo = 0;
+        
+        try (PreparedStatement ps = conn.prepareStatement("SELECT sueldo FROM usuario WHERE id = ?")){
+            ps.setInt(1, id);
+            ResultSet rst = ps.executeQuery();
+            while (rst.next()) {
+                usuario = new Usuario();
+                usuario.setId(id);
+                sueldo = rst.getFloat(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en sql: ");
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return sueldo;
+    }
 }

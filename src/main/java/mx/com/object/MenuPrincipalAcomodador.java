@@ -19,6 +19,7 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
     EstadoFrame estadoFrame = new EstadoFrame();
     CajonesFrame cajonesFrame = new CajonesFrame();
     ClienteFrame clienteFrame = new ClienteFrame();
+    ComisionesFrame comisionesFrame = new ComisionesFrame();
     List<JInternalFrame> frames = new ArrayList<>();
     /**
      * Creates new form MenuPrincipal2
@@ -38,9 +39,11 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
         this.jDesktopPane1.add(estadoFrame);
         this.jDesktopPane1.add(cajonesFrame);
         this.jDesktopPane1.add(clienteFrame);
+        this.jDesktopPane1.add(comisionesFrame);
         this.frames.add(ingresoFrame);
         this.frames.add(egresoFrame);
         this.frames.add(estadoFrame);
+        this.frames.add(comisionesFrame);
     }
 
     /**
@@ -64,6 +67,7 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
         itemCajones = new javax.swing.JMenuItem();
         menuAcomodador = new javax.swing.JMenu();
         itemCliente = new javax.swing.JMenuItem();
+        itemComisiones = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -128,6 +132,7 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
         menuBoleto.add(itemConsulta);
 
         jMenuItem1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salir.png"))); // NOI18N
         jMenuItem1.setText("Salir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +174,16 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
             }
         });
         menuAcomodador.add(itemCliente);
+
+        itemComisiones.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemComisiones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/precio.png"))); // NOI18N
+        itemComisiones.setText("Comisiones");
+        itemComisiones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemComisionesActionPerformed(evt);
+            }
+        });
+        menuAcomodador.add(itemComisiones);
 
         jMenuBar1.add(menuAcomodador);
 
@@ -217,6 +232,11 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
     private void itemClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClienteActionPerformed
         clienteFrame.show();
     }//GEN-LAST:event_itemClienteActionPerformed
+
+    private void itemComisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemComisionesActionPerformed
+        esconder();
+        comisionesFrame.show();
+    }//GEN-LAST:event_itemComisionesActionPerformed
     private void esconder(){
         for(JInternalFrame frame : frames){
             frame.hide();
@@ -265,6 +285,7 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemBaja;
     private javax.swing.JMenuItem itemCajones;
     private javax.swing.JMenuItem itemCliente;
+    private javax.swing.JMenuItem itemComisiones;
     private javax.swing.JMenuItem itemConsulta;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;

@@ -108,13 +108,15 @@
                                           <Component id="cajon" min="-2" pref="35" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="lblTotal" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="total" min="-2" pref="50" max="-2" attributes="0"/>
-                                      </Group>
                                       <Component id="lblusuarioAlta" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblusuarioBaja" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="lblTotal" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="total" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Component id="lblusuarioBaja" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -200,7 +202,7 @@
                       <Component id="lblusuarioAlta" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="alta" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <EmptySpace pref="16" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblusuarioBaja" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="baja" alignment="3" min="-2" max="-2" attributes="0"/>

@@ -21,6 +21,7 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
     ReporteFrame reporteFrame = new ReporteFrame();
     ClienteFrame clienteFrame = new ClienteFrame();
     ServidorFrame servidorFrame = new ServidorFrame();
+    ComisionesFrame comisionesFrame = new ComisionesFrame();
     List<JInternalFrame> frames = new ArrayList<>();
     /**
      * Creates new form MenuPrincipal2
@@ -43,12 +44,14 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         this.jDesktopPane1.add(reporteFrame);
         this.jDesktopPane1.add(clienteFrame);
         this.jDesktopPane1.add(servidorFrame);
+        this.jDesktopPane1.add(comisionesFrame);
         this.frames.add(ingresoFrame);
         this.frames.add(egresoFrame);
         this.frames.add(estadoFrame);
         this.frames.add(usuarioFrame);
         //this.frames.add(cajonesFrame);
         this.frames.add(reporteFrame);
+        this.frames.add(comisionesFrame);
 
     }
 
@@ -74,6 +77,7 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         itemCajones = new javax.swing.JMenuItem();
         menuAcomodador = new javax.swing.JMenu();
         itemCliente = new javax.swing.JMenuItem();
+        itemComisiones = new javax.swing.JMenuItem();
         menuAdministracion = new javax.swing.JMenu();
         itemUsuario = new javax.swing.JMenuItem();
         itemReporte = new javax.swing.JMenuItem();
@@ -187,6 +191,16 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         });
         menuAcomodador.add(itemCliente);
 
+        itemComisiones.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemComisiones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/precio.png"))); // NOI18N
+        itemComisiones.setText("Comisiones");
+        itemComisiones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemComisionesActionPerformed(evt);
+            }
+        });
+        menuAcomodador.add(itemComisiones);
+
         jMenuBar1.add(menuAcomodador);
 
         menuAdministracion.setForeground(new java.awt.Color(0, 102, 153));
@@ -284,6 +298,11 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
     private void itemServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemServidorActionPerformed
         servidorFrame.show();
     }//GEN-LAST:event_itemServidorActionPerformed
+
+    private void itemComisionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemComisionesActionPerformed
+        esconder();
+        comisionesFrame.show();
+    }//GEN-LAST:event_itemComisionesActionPerformed
     private void esconder(){
         for(JInternalFrame frame : frames){
             frame.hide();
@@ -332,6 +351,7 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemBaja;
     private javax.swing.JMenuItem itemCajones;
     private javax.swing.JMenuItem itemCliente;
+    private javax.swing.JMenuItem itemComisiones;
     private javax.swing.JMenuItem itemConsulta;
     private javax.swing.JMenuItem itemReporte;
     private javax.swing.JMenuItem itemServidor;
