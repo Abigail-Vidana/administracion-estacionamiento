@@ -1,6 +1,5 @@
 package mx.com.object;
 
-
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,8 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
     UsuarioFrame usuarioFrame = new UsuarioFrame();
     CajonesFrame cajonesFrame = new CajonesFrame();
     ReporteFrame reporteFrame = new ReporteFrame();
+    ClienteFrame clienteFrame = new ClienteFrame();
+    ServidorFrame servidorFrame = new ServidorFrame();
     List<JInternalFrame> frames = new ArrayList<>();
     /**
      * Creates new form MenuPrincipal2
@@ -40,6 +41,8 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         this.jDesktopPane1.add(usuarioFrame);
         this.jDesktopPane1.add(cajonesFrame);
         this.jDesktopPane1.add(reporteFrame);
+        this.jDesktopPane1.add(clienteFrame);
+        this.jDesktopPane1.add(servidorFrame);
         this.frames.add(ingresoFrame);
         this.frames.add(egresoFrame);
         this.frames.add(estadoFrame);
@@ -58,6 +61,7 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -69,8 +73,13 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         menuAuto = new javax.swing.JMenu();
         itemCajones = new javax.swing.JMenuItem();
         menuAcomodador = new javax.swing.JMenu();
+        itemCliente = new javax.swing.JMenuItem();
+        menuAdministracion = new javax.swing.JMenu();
         itemUsuario = new javax.swing.JMenuItem();
         itemReporte = new javax.swing.JMenuItem();
+        itemServidor = new javax.swing.JMenuItem();
+
+        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,6 +144,7 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         menuBoleto.add(itemConsulta);
 
         jMenuItem1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salir.png"))); // NOI18N
         jMenuItem1.setText("Salir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,6 +177,23 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         menuAcomodador.setText("Acomodador");
         menuAcomodador.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 12)); // NOI18N
 
+        itemCliente.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chat.png"))); // NOI18N
+        itemCliente.setText("Chat");
+        itemCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemClienteActionPerformed(evt);
+            }
+        });
+        menuAcomodador.add(itemCliente);
+
+        jMenuBar1.add(menuAcomodador);
+
+        menuAdministracion.setForeground(new java.awt.Color(0, 102, 153));
+        menuAdministracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/admin.png"))); // NOI18N
+        menuAdministracion.setText("Administracion");
+        menuAdministracion.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 12)); // NOI18N
+
         itemUsuario.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         itemUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usercirlce.png"))); // NOI18N
         itemUsuario.setText("Agregar usuario");
@@ -175,19 +202,29 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
                 itemUsuarioActionPerformed(evt);
             }
         });
-        menuAcomodador.add(itemUsuario);
+        menuAdministracion.add(itemUsuario);
 
         itemReporte.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         itemReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/archivo.png"))); // NOI18N
-        itemReporte.setText("Reporte acomodador");
+        itemReporte.setText("Reporte semanal");
         itemReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemReporteActionPerformed(evt);
             }
         });
-        menuAcomodador.add(itemReporte);
+        menuAdministracion.add(itemReporte);
 
-        jMenuBar1.add(menuAcomodador);
+        itemServidor.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemServidor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chat.png"))); // NOI18N
+        itemServidor.setText("Servidor de chat");
+        itemServidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemServidorActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(itemServidor);
+
+        jMenuBar1.add(menuAdministracion);
 
         setJMenuBar(jMenuBar1);
 
@@ -226,7 +263,6 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_itemUsuarioActionPerformed
 
     private void itemCajonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCajonesActionPerformed
-        esconder();
         cajonesFrame.show();
     }//GEN-LAST:event_itemCajonesActionPerformed
 
@@ -240,6 +276,14 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
         inicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void itemClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClienteActionPerformed
+        clienteFrame.show();
+    }//GEN-LAST:event_itemClienteActionPerformed
+
+    private void itemServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemServidorActionPerformed
+        servidorFrame.show();
+    }//GEN-LAST:event_itemServidorActionPerformed
     private void esconder(){
         for(JInternalFrame frame : frames){
             frame.hide();
@@ -287,14 +331,18 @@ public class MenuPrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemAlta;
     private javax.swing.JMenuItem itemBaja;
     private javax.swing.JMenuItem itemCajones;
+    private javax.swing.JMenuItem itemCliente;
     private javax.swing.JMenuItem itemConsulta;
     private javax.swing.JMenuItem itemReporte;
+    private javax.swing.JMenuItem itemServidor;
     private javax.swing.JMenuItem itemUsuario;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu menuAcomodador;
+    private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenu menuAuto;
     private javax.swing.JMenu menuBoleto;
     // End of variables declaration//GEN-END:variables

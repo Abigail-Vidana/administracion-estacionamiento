@@ -18,6 +18,7 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
     EgresoFrame egresoFrame = new EgresoFrame();
     EstadoFrame estadoFrame = new EstadoFrame();
     CajonesFrame cajonesFrame = new CajonesFrame();
+    ClienteFrame clienteFrame = new ClienteFrame();
     List<JInternalFrame> frames = new ArrayList<>();
     /**
      * Creates new form MenuPrincipal2
@@ -36,6 +37,7 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
         this.jDesktopPane1.add(egresoFrame);
         this.jDesktopPane1.add(estadoFrame);
         this.jDesktopPane1.add(cajonesFrame);
+        this.jDesktopPane1.add(clienteFrame);
         this.frames.add(ingresoFrame);
         this.frames.add(egresoFrame);
         this.frames.add(estadoFrame);
@@ -60,6 +62,8 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         menuAuto = new javax.swing.JMenu();
         itemCajones = new javax.swing.JMenuItem();
+        menuAcomodador = new javax.swing.JMenu();
+        itemCliente = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -151,6 +155,23 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
 
         jMenuBar1.add(menuAuto);
 
+        menuAcomodador.setForeground(new java.awt.Color(0, 102, 153));
+        menuAcomodador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuario.png"))); // NOI18N
+        menuAcomodador.setText("Acomodador");
+        menuAcomodador.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 12)); // NOI18N
+
+        itemCliente.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        itemCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chat.png"))); // NOI18N
+        itemCliente.setText("Chat");
+        itemCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemClienteActionPerformed(evt);
+            }
+        });
+        menuAcomodador.add(itemCliente);
+
+        jMenuBar1.add(menuAcomodador);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -192,6 +213,10 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
         inicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_itemSalir
+
+    private void itemClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemClienteActionPerformed
+        clienteFrame.show();
+    }//GEN-LAST:event_itemClienteActionPerformed
     private void esconder(){
         for(JInternalFrame frame : frames){
             frame.hide();
@@ -239,11 +264,13 @@ public class MenuPrincipalAcomodador extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemAlta;
     private javax.swing.JMenuItem itemBaja;
     private javax.swing.JMenuItem itemCajones;
+    private javax.swing.JMenuItem itemCliente;
     private javax.swing.JMenuItem itemConsulta;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu menuAcomodador;
     private javax.swing.JMenu menuAuto;
     private javax.swing.JMenu menuBoleto;
     // End of variables declaration//GEN-END:variables
